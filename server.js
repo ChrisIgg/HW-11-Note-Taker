@@ -1,8 +1,6 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const { parse } = require("path/posix");
-const { clog } = require("./middleware/clog");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
