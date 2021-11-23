@@ -24,7 +24,7 @@ app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "/public/index.html"))
 );
 
-app.get("/notes", (req, res) =>
+app.get("./notes", (req, res) =>
   res.sendFile(path.join(__dirname, "/public/notes.html"))
 );
 
@@ -33,21 +33,29 @@ app.get("/api/notes", (req, res) =>
     if (err) {
       console.error(err);
       return;
+    } else {
+      res.json(JSON.parse);
     }
-    console.log(data);
-    var parsedString = JSON.parse(data);
-    res.json(parsedString);
   })
 );
-// fs.readFile('data.csv', 'utf8', (error, data) => error ? console.error(error) : console.log(data)
-// );
 
-// Uncomment this next function to write to the file with anything you pass in as process.argv[2]
-// const userInput = process.argv[2]
-// console.log(userInput)
-// fs.writeFile('log.txt', process.argv[2], (err) =>
-//   err ? console.error(err) : console.log('Success!')
-// );
+app.get("/api/notes", (req, res) => {
+  console.log(req.body);
+
+  const { title, text } = req.body;
+
+  if (req.body) {
+    const newNote = {
+      title,
+      text,
+    };
+
+    readAndAppend(newNote, "./db/db.json");
+    res.json(`Note added successfully 🚀`);
+  } else {
+    res.error("Error in adding note");
+  }
+});
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
