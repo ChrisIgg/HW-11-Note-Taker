@@ -29,17 +29,18 @@ app.get("./notes", (req, res) =>
 );
 
 app.get("/api/notes", (req, res) =>
+  // utf8 is encoding (english characters), err if errors, now what is data
   fs.readFile("./db/db.json", "utf8", (err, data) => {
+    console.log(data, "data before res.json");
     if (err) {
       console.error(err);
       return;
-    } else {
-      res.json(JSON.parse);
     }
+    res.json(JSON.parse(data));
   })
 );
 
-app.get("/api/notes", (req, res) => {
+app.post("/api/notes", (req, res) => {
   console.log(req.body);
 
   const { title, text } = req.body;
@@ -60,3 +61,5 @@ app.get("/api/notes", (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
+function readAndAppend () 
