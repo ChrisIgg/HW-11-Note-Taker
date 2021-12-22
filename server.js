@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const helpers = require("./utils/helpers.js");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -40,7 +41,7 @@ app.get("/api/notes", (req, res) =>
   })
 );
 
-app.post("/api/notes", (req, res) => {
+app.post("/api/notes", async (req, res) => {
   console.log(req.body);
 
   const { title, text } = req.body;
@@ -51,8 +52,9 @@ app.post("/api/notes", (req, res) => {
       text,
     };
 
-    readAndAppend(newNote, "./db/db.json");
+    helpers(newNote);
     res.json(`Note added successfully 🚀`);
+    console.log("We reach this point");
   } else {
     res.error("Error in adding note");
   }
